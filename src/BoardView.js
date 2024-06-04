@@ -27,7 +27,10 @@ class BoardView extends Component {
                         <Button variant="secondary"
                                 size="sm">수정</Button>
                         <Button variant="danger"
-                                size="sm">삭제</Button>
+                                size="sm"
+                                onClick={ function() {
+                                    this.props.deleteBoard(content.id);
+                                }.bind(this) }>삭제</Button>
                         </>
                     }
                     <Button variant="secondary"

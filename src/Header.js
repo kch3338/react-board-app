@@ -5,7 +5,7 @@ import './Header.css';
 class Header extends Component {
     render() {
         const loginId = this.props.loginId;
-가
+
         return (
             <div className="header_app">
                 <div className="header_title">

@@ -20,9 +20,12 @@
 }
 
 .board_list_body {
+    padding-top: 5px;
+}
+
+.board_list_body_contents {
     display: grid;
     grid-template-columns: 75% 15% 10%;
-    padding-top: 5px;
 }
 
 .author_body {

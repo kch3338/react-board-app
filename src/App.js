@@ -67,6 +67,18 @@ class App extends Component {
         });
     }
 
+    deleteBoard(contentId) {
+        if(window.confirm("삭제하시겠습니까?")) {
+            let deletedContents = this.state.contents.filter((content) => content.id !== contentId);
+            this.setState({
+                mode: "list",
+                contents: deletedContents,
+                page: 1,
+                currentContent: {}
+            });
+        }
+    }
+
     getDate() {
         const today = new Date();
         const year = today.getFullYear();
@@ -120,6 +132,7 @@ class App extends Component {
                                 loginId={ this.state.loginId }
                                 content={ this.state.content }
                                 onChangeMode={ this.changeModeToList.bind(this) }
+                                deleteBoard={ this.deleteBoard.bind(this) }
                             />
                           </>
                 break;

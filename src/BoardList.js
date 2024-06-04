@@ -14,7 +14,7 @@ class BoardList extends Component{
         let list = [];
         for(let content of contents) {
             list.push(
-                <>
+                <div className="board_list_body_contents">
                     <div className="title_body" key={ content.id }>
                         <a href={ /board/ + content.id } onClick={ function(e) {
                             e.preventDefault();
@@ -23,7 +23,7 @@ class BoardList extends Component{
                     </div>
                     <div className="author_body">{ content.author }</div>
                     <div className="createDate_body">{ content.createDate }</div>
-                </>
+                </div>
             )
         }
 
