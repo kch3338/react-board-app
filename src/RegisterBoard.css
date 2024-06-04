@@ -1,0 +1,7 @@
+.button_list {
+    text-align: center;
+}
+
+.button_list > button {
+    margin: 20px 5px;
+}
