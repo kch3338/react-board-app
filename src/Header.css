@@ -1,3 +1,20 @@
 .header_app {
     margin: 10px 0;
 }
+
+.header_title {
+    text-align: center;
+}
+
+.header_content {
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.header_login_info {
+    text-align: right;
+}
+
+.header_login_id {
+    margin-right: 10px;
+}

@@ -18,8 +18,8 @@ class BoardList extends Component{
                     <div className="title_body" key={ content.id }>
                         <a href={ /board/ + content.id } onClick={ function(e) {
                             e.preventDefault();
-                            alert("id : " + content.id);
-                        } }>{ content.title }</a>
+                            this.props.viewBoard(content.id);
+                        }.bind(this) }>{ content.title }</a>
                     </div>
                     <div className="author_body">{ content.author }</div>
                     <div className="createDate_body">{ content.createDate }</div>

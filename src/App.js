@@ -5,13 +5,16 @@ import BoardList from "./BoardList";
 import Footer from "./Footer";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RegisterBoard from "./RegisterBoard";
+import BoardView from "./BoardView";
+
+const loginId = "louis";
 
 class App extends Component {
     constructor(props) { // 초기화
         super(props);
         this.state = {
             mode: "list",
-            loginId: "louis",
+            loginId: loginId,
             lastContentId: 4,
             page: 1,
             contents: [
@@ -19,7 +22,8 @@ class App extends Component {
                 { id: 3, title: 'JavaScript', author: 'louis', content: 'JavaScript', createDate: '2024-05-23' },
                 { id: 2, title: 'CSS', author: 'louis', content: 'CSS', createDate: '2024-05-16' },
                 { id: 1, title: 'HTML', author: 'louis', content: 'HTML', createDate: '2024-05-09' }
-            ]
+            ],
+            currentContent: {}
         }
     }
 
@@ -55,6 +59,14 @@ class App extends Component {
         });
     }
 
+    viewBoard(contentId) {
+        const content = this.state.contents.find((content) => content.id === contentId);
+        this.setState({
+            mode: "view",
+            content: content
+        });
+    }
+
     getDate() {
         const today = new Date();
         const year = today.getFullYear();
@@ -64,24 +76,55 @@ class App extends Component {
         return year + "-" + month + "-" + day;
     }
 
+    login() {
+        this.setState({
+            loginId: loginId
+        });
+    }
+
+    logout() {
+        this.setState({
+            loginId: null
+        });
+    }
+
     getContent() {
         let content;
         let mode = this.state.mode;
         switch(mode) {
             case 'list':
                 content = <>
-                            <Header onChangeMode={ this.changeModeToCreate.bind(this) } />
+                            <Header
+                                loginId={ this.state.loginId }
+                                onChangeMode={ this.changeModeToCreate.bind(this) }
+                                doLogin={ this.login.bind(this) }
+                                doLogout={ this.logout.bind(this) }
+                            />
                             <BoardList
                                 contents={ this.state.contents }
                                 page={ this.state.page }
+                                viewBoard={ this.viewBoard.bind(this) }
                             />
                             <Footer />
                           </>
                 break;
-            case 'create':
+            case 'view':
                 content = <>
-                            <RegisterBoard registerBoard={ this.registerBoard.bind(this) } />
+                            <Header
+                                loginId={ this.state.loginId }
+                                onChangeMode={ this.changeModeToCreate.bind(this) }
+                                doLogin={ this.login.bind(this) }
+                                doLogout={ this.logout.bind(this) }
+                            />
+                            <BoardView
+                                loginId={ this.state.loginId }
+                                content={ this.state.content }
+                                onChangeMode={ this.changeModeToList.bind(this) }
+                            />
                           </>
+                break;
+            case 'create':
+                content = <RegisterBoard registerBoard={ this.registerBoard.bind(this) } />
                 break;
             default:
                 break;
