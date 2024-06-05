@@ -25,7 +25,10 @@ class BoardView extends Component {
                     { this.isAuthor() &&
                         <>
                         <Button variant="secondary"
-                                size="sm">수정</Button>
+                                size="sm"
+                                onClick={ function() {
+                                    this.props.onChangeModeToUpdate(content);
+                                }.bind(this) }>수정</Button>
                         <Button variant="danger"
                                 size="sm"
                                 onClick={ function() {
@@ -36,7 +39,7 @@ class BoardView extends Component {
                     <Button variant="secondary"
                             size="sm"
                             onClick={ function() {
-                                this.props.onChangeMode();
+                                this.props.onChangeModeToList();
                             }.bind(this) }>목록</Button>
 
                 </div>

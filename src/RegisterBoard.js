@@ -7,7 +7,7 @@ class RegisterBoard extends Component {
     render() {
         return (
             <div>
-                <div className="">
+                <div className="register_form">
                     <Form onSubmit={ function(e) {
                         e.preventDefault();
                         this.props.registerBoard(e.target.title.value, e.target.content.value);

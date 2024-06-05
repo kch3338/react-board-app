@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import RegisterBoard from "./RegisterBoard";
 import BoardView from "./BoardView";
+import UpdateBoard from "./UpdateBoard";
 
 const loginId = "louis";
 
@@ -25,6 +26,16 @@ class App extends Component {
             ],
             currentContent: {}
         }
+
+        this.changeModeToCreate = this.changeModeToCreate.bind(this);
+        this.login = this.login.bind(this);
+        this.logout = this.logout.bind(this);
+        this.changeModeToList = this.changeModeToList.bind(this);
+        this.changeModeToUpdate = this.changeModeToUpdate.bind(this);
+        this.registerBoard = this.registerBoard.bind(this);
+        this.viewBoard = this.viewBoard.bind(this);
+        this.updateBoard = this.updateBoard.bind(this);
+        this.deleteBoard = this.deleteBoard.bind(this);
     }
 
     changeModeToCreate() {
@@ -36,6 +47,12 @@ class App extends Component {
     changeModeToList() {
         this.setState({
             mode: "list"
+        });
+    }
+
+    changeModeToUpdate() {
+        this.setState({
+            mode: "update"
         });
     }
 
@@ -63,8 +80,31 @@ class App extends Component {
         const content = this.state.contents.find((content) => content.id === contentId);
         this.setState({
             mode: "view",
-            content: content
+            currentContent: content
         });
+    }
+
+    updateBoard(content) {
+        let currentContent = this.state.currentContent;
+        let contents = Array.from(this.state.contents);
+        for(let i=0; i<contents.length; i++) {
+            if(contents[i].id === content.id) {
+                contents[i] = {
+                    ...contents[i],
+                    id: content.id,
+                    title: content.title,
+                    content: content.content
+                }
+                currentContent = contents[i];
+                break;
+            }
+        }
+
+        this.setState({
+            mode: "view",
+            contents: contents,
+            currentContent: currentContent
+        })
     }
 
     deleteBoard(contentId) {
@@ -108,14 +148,14 @@ class App extends Component {
                 content = <>
                             <Header
                                 loginId={ this.state.loginId }
-                                onChangeMode={ this.changeModeToCreate.bind(this) }
-                                doLogin={ this.login.bind(this) }
-                                doLogout={ this.logout.bind(this) }
+                                onChangeMode={ this.changeModeToCreate }
+                                doLogin={ this.login }
+                                doLogout={ this.logout }
                             />
                             <BoardList
                                 contents={ this.state.contents }
                                 page={ this.state.page }
-                                viewBoard={ this.viewBoard.bind(this) }
+                                viewBoard={ this.viewBoard }
                             />
                             <Footer />
                           </>
@@ -124,20 +164,28 @@ class App extends Component {
                 content = <>
                             <Header
                                 loginId={ this.state.loginId }
-                                onChangeMode={ this.changeModeToCreate.bind(this) }
-                                doLogin={ this.login.bind(this) }
-                                doLogout={ this.logout.bind(this) }
+                                onChangeMode={ this.changeModeToCreate }
+                                doLogin={ this.login }
+                                doLogout={ this.logout }
                             />
                             <BoardView
                                 loginId={ this.state.loginId }
-                                content={ this.state.content }
-                                onChangeMode={ this.changeModeToList.bind(this) }
-                                deleteBoard={ this.deleteBoard.bind(this) }
+                                content={ this.state.currentContent }
+                                onChangeModeToList={ this.changeModeToList }
+                                onChangeModeToUpdate={ this.changeModeToUpdate }
+                                deleteBoard={ this.deleteBoard }
                             />
                           </>
                 break;
             case 'create':
-                content = <RegisterBoard registerBoard={ this.registerBoard.bind(this) } />
+                content = <RegisterBoard registerBoard={ this.registerBoard } />
+                break;
+            case 'update':
+                content = <UpdateBoard
+                                content={ this.state.currentContent }
+                                viewBoard={ this.viewBoard }
+                                updateBoard={ this.updateBoard }
+                          />
                 break;
             default:
                 break;
