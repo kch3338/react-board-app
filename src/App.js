@@ -24,6 +24,7 @@ class App extends Component {
                 { id: 2, title: 'CSS', author: 'louis', content: 'CSS', createDate: '2024-05-16' },
                 { id: 1, title: 'HTML', author: 'louis', content: 'HTML', createDate: '2024-05-09' }
             ],
+            viewContents: [],
             currentContent: {}
         }
 
@@ -36,6 +37,21 @@ class App extends Component {
         this.viewBoard = this.viewBoard.bind(this);
         this.updateBoard = this.updateBoard.bind(this);
         this.deleteBoard = this.deleteBoard.bind(this);
+        this.searchBoard = this.searchBoard.bind(this);
+    }
+
+    componentDidMount() {
+        this.setState({
+            viewContents: this.state.contents
+        });
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(prevState.contents !== this.state.contents) {
+            this.setState({
+                viewContents: this.state.contents
+            });
+        }
     }
 
     changeModeToCreate() {
@@ -119,6 +135,15 @@ class App extends Component {
         }
     }
 
+    searchBoard(target, value) {
+        const contents = this.state.contents.filter(content => content[target].toLowerCase().includes(value.toLowerCase()));
+
+        this.setState({
+            viewContents: contents,
+            page: 1
+        });
+    }
+
     getDate() {
         const today = new Date();
         const year = today.getFullYear();
@@ -155,11 +180,13 @@ class App extends Component {
                                 doLogout={ this.logout }
                             />
                             <BoardList
-                                contents={ this.state.contents }
+                                contents={ this.state.viewContents }
                                 page={ this.state.page }
                                 viewBoard={ this.viewBoard }
                             />
-                            <Footer />
+                            <Footer
+                                doSearch={ this.searchBoard }
+                            />
                           </>
                 break;
             case 'view':
