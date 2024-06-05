@@ -132,6 +132,8 @@ class App extends Component {
         this.setState({
             loginId: loginId
         });
+
+        alert(`환영합니다. ${loginId}`);
     }
 
     logout() {
