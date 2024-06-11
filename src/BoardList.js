@@ -1,54 +1,36 @@
-import React, {Component} from "react";
 import './BoardList.css';
+import EmptyBoard from "./EmptyBoard";
+import BoardItem from "./BoardItem";
 
-class BoardList extends Component{
-    isEmptyContents(contents) {
-        return contents.length === 0;
+function BoardList({ contents, page, viewBoard }) {
+
+    const onViewBoard = (id) => {
+        viewBoard(id);
     }
 
-    getEmptyRow() {
-       return <div className="board_list_body_empty">등록된 게시물이 없습니다.</div>;
-    }
-
-    getBoardRow(contents) {
-        let list = [];
-        for(let content of contents) {
-            list.push(
-                <div className="board_list_body_contents">
-                    <div className="title_body" key={ content.id }>
-                        <a href={ /board/ + content.id } onClick={ function(e) {
-                            e.preventDefault();
-                            this.props.viewBoard(content.id);
-                        }.bind(this) }>{ content.title }</a>
-                    </div>
-                    <div className="author_body">{ content.author }</div>
-                    <div className="createDate_body">{ content.createDate }</div>
-                </div>
-            )
-        }
-
-        return list;
-    }
-
-    render() {
-        let contents = this.props.contents;
-        let body = this.isEmptyContents(contents) ?
-                        this.getEmptyRow() :
-                        this.getBoardRow(contents);
-
-        return (
-            <div className="board_list">
-                <div className="board_list_header">
-                    <div className="title_header">글 제목</div>
-                    <div className="author_header">작성자</div>
-                    <div className="create_date_header">작성일</div>
-                </div>
-                <div className="board_list_body">
-                    { body }
-                </div>
+    return (
+        <div className="board_list">
+            <div className="board_list_count">
+                총 { contents.length } 건
             </div>
-        )
-    }
+            <div className="board_list_header">
+                <div className="title_header">글 제목</div>
+                <div className="author_header">작성자</div>
+                <div className="create_date_header">작성일</div>
+            </div>
+            <div className="board_list_body">
+                { contents.length === 0 ? (
+                    <EmptyBoard />
+                ) : (
+                    <div className="board_list_body_contents">
+                        { contents.map((item) =>
+                            <BoardItem content={ item } onViewBoard={ () => onViewBoard(item.id) } />
+                        ) }
+                    </div>
+                )}
+            </div>
+        </div>
+    )
 }
 
 export default BoardList;

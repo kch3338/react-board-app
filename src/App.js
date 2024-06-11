@@ -207,7 +207,10 @@ class App extends Component {
                           </>
                 break;
             case 'create':
-                content = <RegisterBoard registerBoard={ this.registerBoard } />
+                content = <RegisterBoard
+                                registerBoard={ this.registerBoard }
+                                onChangeModeToList={ this.changeModeToList }
+                          />
                 break;
             case 'update':
                 content = <UpdateBoard

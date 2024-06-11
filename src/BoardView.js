@@ -1,51 +1,39 @@
-import React, {Component} from "react";
 import Button from "react-bootstrap/Button";
 import './BoardView.css';
 
-class BoardView extends Component {
-    isAuthor() {
-        return this.props.loginId === this.props.content.author;
+function BoardView({ loginId, content, onChangeModeToList, onChangeModeToUpdate, deleteBoard }) {
+    const isAuthor = () => {
+        return loginId === content.author;
     }
 
-    render() {
-        const content = this.props.content;
-
-        return (
-            <div>
-                <div className="content_title">
-                    <h3>{ content.title }</h3>
-                </div>
-                <div className="content_info">
-                    <span>{ content.author }</span>
-                </div>
-                <div className="content">
-                    { content.content }
-                </div>
-                <div className="button_list">
-                    { this.isAuthor() &&
-                        <>
-                        <Button variant="secondary"
-                                size="sm"
-                                onClick={ function() {
-                                    this.props.onChangeModeToUpdate(content);
-                                }.bind(this) }>수정</Button>
-                        <Button variant="danger"
-                                size="sm"
-                                onClick={ function() {
-                                    this.props.deleteBoard(content.id);
-                                }.bind(this) }>삭제</Button>
-                        </>
-                    }
+    return (
+        <div>
+            <div className="content_title">
+                <h3>{ content.title }</h3>
+            </div>
+            <div className="content_info">
+                <span>{ content.author }</span>
+            </div>
+            <div className="content">
+                { content.content }
+            </div>
+            <div className="button_list">
+                { isAuthor &&
+                    <>
                     <Button variant="secondary"
                             size="sm"
-                            onClick={ function() {
-                                this.props.onChangeModeToList();
-                            }.bind(this) }>목록</Button>
-
-                </div>
+                            onClick={ () => onChangeModeToUpdate(content) }>수정</Button>
+                    <Button variant="danger"
+                            size="sm"
+                            onClick={ () => deleteBoard(content.id) }>삭제</Button>
+                    </>
+                }
+                <Button variant="secondary"
+                        size="sm"
+                        onClick={ onChangeModeToList }>목록</Button>
             </div>
-        )
-    }
+        </div>
+    )
 }
 
 export default BoardView;
