@@ -2,9 +2,6 @@ import Button from "react-bootstrap/Button";
 import './BoardView.css';
 
 function BoardView({ loginId, content, onChangeModeToList, onChangeModeToUpdate, deleteBoard }) {
-    const isAuthor = () => {
-        return loginId === content.author;
-    }
 
     return (
         <div>
@@ -18,7 +15,7 @@ function BoardView({ loginId, content, onChangeModeToList, onChangeModeToUpdate,
                 { content.content }
             </div>
             <div className="button_list">
-                { isAuthor &&
+                { loginId === content.author &&
                     <>
                     <Button variant="secondary"
                             size="sm"
